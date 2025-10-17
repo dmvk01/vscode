@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Вход в админ-панель{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 50px auto; text-align: center;">
+    <h2>Вход в админ-панель</h2>
+    
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    
+    <form method="POST" style="text-align: left;">
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit" class="btn">Войти</button>
+    </form>
+</div>
+{% endblock %}

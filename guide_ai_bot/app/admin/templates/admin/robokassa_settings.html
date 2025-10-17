@@ -1,0 +1,161 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Настройки Robokassa{% endblock %}
+
+{% block content %}
+<h2>Настройки Robokassa</h2>
+
+<div class="instructions">
+    <p><strong>Инструкция:</strong> Заполните все поля ниже данными из личного кабинета Robokassa. Все поля обязательны для заполнения.</p>
+</div>
+
+{% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST" class="settings-form">
+    <div class="form-group">
+        <label for="robokassa_login">Логин Robokassa:
+            <span class="tooltip" title="Логин вашего магазина в Robokassa (находится в личном кабинете)">?</span>
+        </label>
+        <input type="text" id="robokassa_login" name="robokassa_login" value="{{ settings.robokassa_login or '' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="robokassa_password1">Пароль #1:
+            <span class="tooltip" title="Пароль #1 из личного кабинета Robokassa (используется для формирования подписи)">?</span>
+        </label>
+        <input type="password" id="robokassa_password1" name="robokassa_password1" value="{{ settings.robokassa_password1 or '' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="robokassa_password2">Пароль #2:
+            <span class="tooltip" title="Пароль #2 из личного кабинета Robokassa (используется для проверки уведомлений)">?</span>
+        </label>
+        <input type="password" id="robokassa_password2" name="robokassa_password2" value="{{ settings.robokassa_password2 or '' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="robokassa_test_mode">Тестовый режим:
+            <span class="tooltip" title="Включение тестового режима для отладки платежей (включено - тестовая среда, выключено - боевая среда)">?</span>
+        </label>
+        <select id="robokassa_test_mode" name="robokassa_test_mode">
+            <option value="true" {% if settings.robokassa_test_mode == 'true' or settings.robokassa_test_mode == true %}selected{% endif %}>Включен</option>
+            <option value="false" {% if settings.robokassa_test_mode == 'false' or settings.robokassa_test_mode == false %}selected{% endif %}>Выключен</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="robokassa_webhook_url">URL вебхука:
+            <span class="tooltip" title="URL, по которому Robokassa будет отправлять уведомления о платежах (должен быть публично доступен)">?</span>
+        </label>
+        <input type="url" id="robokassa_webhook_url" name="robokassa_webhook_url" value="{{ settings.robokassa_webhook_url or '' }}" placeholder="https://вашдомен.ru/webhook/robokassa">
+    </div>
+    
+    <button type="submit" class="btn">Сохранить настройки</button>
+</form>
+
+<style>
+.settings-form {
+    max-width: 600px;
+    margin: 20px 0;
+}
+
+.instructions {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.instructions strong {
+    color: #495057;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.tooltip {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    text-align: center;
+    line-height: 18px;
+    cursor: help;
+    margin-left: 5px;
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1000;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+</style>
+{% endblock %}

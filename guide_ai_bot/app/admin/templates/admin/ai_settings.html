@@ -1,0 +1,188 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Настройки нейросетей{% endblock %}
+
+{% block content %}
+<h2>Настройки API-ключей нейросетей</h2>
+
+<div class="instructions">
+    <p><strong>Инструкция:</strong> Заполните поля ниже API-ключами от соответствующих сервисов. Для работы бота требуется хотя бы один из сервисов.</p>
+</div>
+
+{% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST" class="settings-form">
+    <div class="form-section">
+        <h3>Mistral AI
+            <span class="tooltip" title="Основной провайдер ИИ для бесплатных пользователей">?</span>
+        </h3>
+        
+        <div class="form-group">
+            <label for="mistral_api_key">API-ключ Mistral:
+                <span class="tooltip" title="API-ключ от Mistral AI (получается в личном кабинете mistral.ai)">?</span>
+            </label>
+            <input type="password" id="mistral_api_key" name="mistral_api_key" value="{{ settings.mistral_api_key or '' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="mistral_model_name">Модель Mistral:
+                <span class="tooltip" title="Название модели Mistral AI для использования (например, mistral-small-latest)">?</span>
+            </label>
+            <input type="text" id="mistral_model_name" name="mistral_model_name" value="{{ settings.mistral_model_name or 'mistral-small-latest' }}">
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>OpenRouter
+            <span class="tooltip" title="Провайдер ИИ для премиум пользователей (поддерживает множество моделей)">?</span>
+        </h3>
+        
+        <div class="form-group">
+            <label for="openrouter_api_key">API-ключ OpenRouter:
+                <span class="tooltip" title="API-ключ от OpenRouter (получается в личном кабинете openrouter.ai)">?</span>
+            </label>
+            <input type="password" id="openrouter_api_key" name="openrouter_api_key" value="{{ settings.openrouter_api_key or '' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="openrouter_model_name">Модель OpenRouter:
+                <span class="tooltip" title="Название модели OpenRouter для использования (например, openchat/openchat-7b)">?</span>
+            </label>
+            <input type="text" id="openrouter_model_name" name="openrouter_model_name" value="{{ settings.openrouter_model_name or 'openchat/openchat-7b' }}">
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Общие настройки</h3>
+        
+        <div class="form-group">
+            <label for="ai_api_key">Общий API-ключ (для внутренней авторизации):
+                <span class="tooltip" title="API-ключ для внутренней авторизации между компонентами бота">?</span>
+            </label>
+            <input type="password" id="ai_api_key" name="ai_api_key" value="{{ settings.ai_api_key or '' }}">
+        </div>
+    </div>
+    
+    <button type="submit" class="btn">Сохранить настройки</button>
+</form>
+
+<style>
+.settings-form {
+    max-width: 600px;
+    margin: 20px 0;
+}
+
+.instructions {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.instructions strong {
+    color: #495057;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.form-section h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.tooltip {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    text-align: center;
+    line-height: 18px;
+    cursor: help;
+    margin-left: 5px;
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1000;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,3 @@
+This directory contains Alembic migration scripts for the Guide_AI_Bot project.
+
+Migration scripts are automatically generated and applied to manage database schema changes.

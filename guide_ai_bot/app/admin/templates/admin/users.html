@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+<h2>Пользователи ({{ total_users }} всего)</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя пользователя</th>
+            <th>Режим</th>
+            <th>Дата регистрации</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.username or 'Не указано' }}</td>
+            <td>{{ user.subscription_type }}</td>
+            <td>{{ user.created_at.strftime('%d.%m.%Y %H:%M') if user.created_at else '' }}</td>
+            <td>
+                <a href="{{ url_for('admin_user_detail', user_id=user.user_id) }}">Детали</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {% if current_page > 1 %}
+        <a href="{{ url_for('admin_users', page=current_page-1) }}">Предыдущая</a>
+    {% endif %}
+    
+    <span>Страница {{ current_page }} из {{ total_pages }}</span>
+    
+    {% if current_page < total_pages %}
+        <a href="{{ url_for('admin_users', page=current_page+1) }}">Следующая</a>
+    {% endif %}
+</div>
+{% endblock %}
