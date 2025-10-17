@@ -1,0 +1,30 @@
+#!/bin/sh
+# Git hook для проверки кода перед коммитом
+
+echo "Выполняется проверка кода перед коммитом..."
+
+# Проверка синтаксиса Python файлов
+echo "Проверка синтаксиса Python файлов..."
+PYTHON_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.py$')
+
+if [ -n "$PYTHON_FILES" ]; then
+    python -m py_compile $PYTHON_FILES
+    
+    if [ $? -ne 0 ]; then
+        echo "Ошибка синтаксиса в Python файлах. Коммит отменен."
+        exit 1
+    fi
+fi
+
+# Проверка форматирования с помощью black (если установлен)
+if command -v black >/dev/null 2>&1; then
+    echo "Проверка форматирования с помощью black..."
+    git diff --cached --name-only --diff-filter=ACM | grep '\.py$' | xargs black --check --diff
+    if [ $? -ne 0 ]; then
+        echo "Файлы не соответствуют форматированию black. Пожалуйста, выполните форматирование."
+        exit 1
+    fi
+fi
+
+echo "Проверка кода завершена успешно!"
+exit 0
